@@ -56,7 +56,7 @@ header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding-top: 11.5em;
+  padding-top: 16em;
 }
 
 .gameInfo {
@@ -87,6 +87,8 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+
 
 #app {
   max-width: 1280px;
@@ -138,6 +140,7 @@ h1 {
 }
 
 input {
+  margin: 1em;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;

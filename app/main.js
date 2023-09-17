@@ -18,7 +18,12 @@ siteInfo.id = `siteInfo`;
 const siteInfoText = document.createElement('h2');
 siteInfoText.textContent = 'Come and find out which of the Nintendo Pokémon games your favorite Pokémon was featured in!'
 siteInfo.append(siteInfoText);
-header.append(logo, siteInfo);
+
+const favoritePoke = document.createElement('input');
+favoritePoke.value = 'Favorite Pokémon'
+favoritePoke.type = 'submit';
+
+header.append(logo, siteInfo, favoritePoke);
 body.append(header, main);
 const getAllPokemon = async () => {
   try {
@@ -31,10 +36,22 @@ const getAllPokemon = async () => {
       const formattedNumber = i < 10 ? `000${i+1}` : i < 100 ? `00${i+1}` : i < 1000 ? `0${i+1}` : `${i+1}`;
       const pokeDataResponse = await fetch(item);
       const pokeData = await pokeDataResponse.json();
+      
       const pokeBox = document.createElement('div');
+      pokeBox.className = `eachPokeBox`
       const name = document.createElement('h3');
       const sprite = document.createElement('img');
-      const button = document.createElement('input');
+
+      const moreInfoButton = document.createElement('input');
+      moreInfoButton.value = `More info`;
+      moreInfoButton.type = 'submit';
+      moreInfoButton.id= `${pokeData.name}moreInfoButton`;
+
+      const favoriteButton = document.createElement('input');
+      favoriteButton.value = `Add to favorites`;
+      favoriteButton.type = 'submit';
+      favoriteButton.id= `${pokeData.name}favoriteButton`;
+
       const card = document.createElement('div');
       const gameInfo = document.createElement('div');
       const fixedName = capitalizeFirstLetter(pokeData.name);
@@ -48,10 +65,8 @@ const getAllPokemon = async () => {
         sprite.alt = `picture of ${pokeData.name}`;
       }
       
-      button.value = `More info`;
-      button.type = 'submit'
-      button.id= `${pokeData.name}Button`
-      pokeBox.append(name, sprite, button );
+      
+      pokeBox.append(name, sprite, moreInfoButton, favoriteButton );
       gameInfo.id = `${pokeData.name}GameInfo`;
       gameInfo.className = `gameInfo`;
       card.className = `pokemonCard`;
@@ -60,9 +75,9 @@ const getAllPokemon = async () => {
       card.append(gameInfo);
       main.append(card);
       
-      button.addEventListener('click', e => {
+      moreInfoButton.addEventListener('click', e => {
         e.preventDefault();
-        if(e.target.id === `${pokeData.name}Button`){
+        if(e.target.id === `${pokeData.name}moreInfoButton`){
          
           if (card.style.display === 'none') {
 
@@ -83,7 +98,7 @@ const getAllPokemon = async () => {
               'border-radius': '1em'
             })          
 
-            button.value = `Close`;
+            moreInfoButton.value = `Close`;
           
             if (!e.target.checked){
 
@@ -99,13 +114,13 @@ const getAllPokemon = async () => {
 
             }
 
-            card.append(button, name, sprite);
+            card.append(moreInfoButton,favoriteButton, name, sprite);
           
           } else {
 
             card.style.display = 'none';
-            button.value = `More info`;
-            pokeBox.append(name, sprite, button );
+            moreInfoButton.value = `More info`;
+            pokeBox.append(name, sprite, moreInfoButton, favoriteButton );
             const modalBg = document.querySelector('.modal-bg');
             modalBg.style.display = 'none';
             modalBg.parentNode.removeChild(modalBg);
