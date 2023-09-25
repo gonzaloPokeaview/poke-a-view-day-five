@@ -60,12 +60,13 @@ window.addEventListener('load', (e) => {
     // });
   }
 });
-const favoritePoke = document.createElement('input');
-favoritePoke.value = `Favorite Pokémon ${favoriteAmount}`
+// const favoritePoke = document.createElement('input');
+// favoritePoke.value = `Favorite Pokémon ${favoriteAmount}`
 
-favoritePoke.type = 'submit';
+// favoritePoke.type = 'submit';
 
-header.append(logo, siteInfo, favoritePoke);
+// header.append(logo, siteInfo, favoritePoke);
+header.append(logo, siteInfo);
 body.append(header, main);
 
 //This is the function that gets all of the Pokémon That will be invoked at the end of the file. 
@@ -191,22 +192,22 @@ const getAllPokemon = async () => {// This is an asynconus function.
         console.log(`favoriteAmount:${favoriteAmount}, favoriteArray.length: ${favoriteArray.length}, favoriteArray: ${favoriteArray}`);
         if (!favoriteArray.includes(fixedName)){
           favoriteArray.push(fixedName);
-          favoritePoke.value = `Favorite Pokémon ${favoriteAmount}`;
-          const update = JSON.stringify(favoriteArray);
-          localStorage.setItem('favoriteArray', update);
+          // favoritePoke.value = `Favorite Pokémon ${favoriteAmount}`;
+          // const update = JSON.stringify(favoriteArray);
+          // localStorage.setItem('favoriteArray', update);
           favoriteButton.value = `Remove from favorites`;
           css (favoriteButton, {
             'color': 'Black',
             'background-color': 'white'
             
           })
-          favoriteAmount++;
+          // favoriteAmount++;
         } else {
           removeFromArray(favoriteArray, fixedName);
-          const update = JSON.stringify(favoriteArray);
-          localStorage.setItem('favoriteArray', update);
+          // const update = JSON.stringify(favoriteArray);
+          // localStorage.setItem('favoriteArray', update);
           favoriteButton.value = `Add to favorites`;
-          favoriteAmount--;
+          // favoriteAmount--;
           css (favoriteButton, {
             'color': 'white',
             'background-color': '#1A1A1A'
