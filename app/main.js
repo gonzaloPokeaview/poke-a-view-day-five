@@ -6,6 +6,16 @@ const css = (element, style) => {
 const capitalizeFirstLetter = (name) => { // format tha name everytime we full the data from the api
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
+const lowerFirstLetter = (name) => {
+  return name.charAt(0).toLowerCase() + name.slice(1);
+}
+
+const removeFromArray = (arr, target) => {
+  const i = arr.indexOf(target);
+  if(i !== -1){
+    arr.splice(i, 1);
+  }
+}
 
 const body = document.body;
 const header = document.createElement('header');
@@ -20,11 +30,43 @@ const siteInfoText = document.createElement('h2');
 siteInfoText.textContent = 'Come and find out which of the Nintendo Pokémon games your favorite Pokémon was featured in!'
 siteInfo.append(siteInfoText);
 
-const favoritePoke = document.createElement('input');
-favoritePoke.value = 'Favorite Pokémon'
-favoritePoke.type = 'submit';
 
-header.append(logo, siteInfo, favoritePoke);
+let favoriteArray = []
+const favoriteArrayJson = JSON.stringify(favoriteArray);
+let favoriteAmount = 0;
+
+
+window.addEventListener('beforeunload', (e) => {
+  localStorage.setItem('favoriteArray', JSON.stringify(favoriteArray));
+  console.log(favoriteArray);
+});
+
+window.addEventListener('load', (e) => {
+  console.log(favoriteArray)
+  const storedData = localStorage.getItem('favoriteArray');
+  if (storedData) {
+    favoriteArray = JSON.parse(storedData);
+
+    //this is where I got stuck I was so close
+    // favoriteArray.forEach((el)=>{
+    //   const newName = lowerFirstLetter(el);
+    //   const button = document.querySelector(`#${newName}favoriteButton`)
+    //   button.value = `Remove from favorites`;
+    //       css (favoriteButton, {
+    //         'color': 'Black',
+    //         'background-color': 'white'
+            
+    //       })
+    // });
+  }
+});
+// const favoritePoke = document.createElement('input');
+// favoritePoke.value = `Favorite Pokémon ${favoriteAmount}`
+
+// favoritePoke.type = 'submit';
+
+// header.append(logo, siteInfo, favoritePoke);
+header.append(logo, siteInfo);
 body.append(header, main);
 
 //This is the function that gets all of the Pokémon That will be invoked at the end of the file. 
@@ -40,16 +82,8 @@ const getAllPokemon = async () => {// This is an asynconus function.
       //This fetch will get the data from the api based on the data passed through when the user clicks on a spesific button.
       const pokeDataResponse = await fetch(item);
       const pokeData = await pokeDataResponse.json();
-      /**
-       * This will be the div that will hold the UI for each pokémon.
-       * It will have the following:
-       * formated name of the Pokémon
-       * formated number of the Pokémon
-       * an image of the pokémon 
-       * a button that will pull up more info about the pokémon
-       * a button to add that pokemon to a list of you favorite pokemon
-       */
-      const pokeBox = document.createElement('div'); //the div for the UI
+      
+      const pokeBox = document.createElement('div');
       pokeBox.className = `eachPokeBox`
       
       const name = document.createElement('h3'); //pokemon name
@@ -73,6 +107,7 @@ const getAllPokemon = async () => {// This is an asynconus function.
       const favoriteButton = document.createElement('input');
       favoriteButton.value = `Add to favorites`;
       favoriteButton.type = 'submit';
+      favoriteButton.className = 'heart';
       favoriteButton.id= `${pokeData.name}favoriteButton`;
       
       const card = document.createElement('div');
@@ -151,6 +186,35 @@ const getAllPokemon = async () => {// This is an asynconus function.
 
         };
       });
+
+      favoriteButton.addEventListener('click', e => {
+        e.preventDefault();
+        console.log(`favoriteAmount:${favoriteAmount}, favoriteArray.length: ${favoriteArray.length}, favoriteArray: ${favoriteArray}`);
+        if (!favoriteArray.includes(fixedName)){
+          favoriteArray.push(fixedName);
+          // favoritePoke.value = `Favorite Pokémon ${favoriteAmount}`;
+          // const update = JSON.stringify(favoriteArray);
+          // localStorage.setItem('favoriteArray', update);
+          favoriteButton.value = `Remove from favorites`;
+          css (favoriteButton, {
+            'color': 'Black',
+            'background-color': 'white'
+            
+          })
+          // favoriteAmount++;
+        } else {
+          removeFromArray(favoriteArray, fixedName);
+          // const update = JSON.stringify(favoriteArray);
+          // localStorage.setItem('favoriteArray', update);
+          favoriteButton.value = `Add to favorites`;
+          // favoriteAmount--;
+          css (favoriteButton, {
+            'color': 'white',
+            'background-color': '#1A1A1A'
+          })
+        }
+      });
+      
       main.appendChild(pokeBox);
 
       css (pokeBox, {

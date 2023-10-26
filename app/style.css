@@ -151,6 +151,16 @@ input {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+/* .heart {
+  background-image: url('heart-icon.png');  Set the path to your heart icon image 
+  background-size: cover;  Scale the image to cover the button 
+  background-repeat: no-repeat; /* Prevent the image from repeating 
+  border: none; /* Remove the button border 
+  
+
+} 
+*/
+
 input :hover {
   border-color: #646cff;
 }
