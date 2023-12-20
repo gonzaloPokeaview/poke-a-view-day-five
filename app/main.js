@@ -1,20 +1,8 @@
-const css = (element, style) => {
-  for (const property in style)
-      element.style[property] = style[property];
-}
+import './src/style.css'
+import { css, capitalizeFirstLetter, removeFromArray } from './src/utils/utils.js';
 
-const capitalizeFirstLetter = (name) => { // format tha name everytime we full the data from the api
-  return name.charAt(0).toUpperCase() + name.slice(1);
-}
 const lowerFirstLetter = (name) => {
   return name.charAt(0).toLowerCase() + name.slice(1);
-}
-
-const removeFromArray = (arr, target) => {
-  const i = arr.indexOf(target);
-  if(i !== -1){
-    arr.splice(i, 1);
-  }
 }
 
 const body = document.body;
